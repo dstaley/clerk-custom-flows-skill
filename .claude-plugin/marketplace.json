@@ -1,0 +1,19 @@
+{
+  "name": "clerk-custom-flows-skills",
+  "owner": {
+    "name": "Dylan Staley"
+  },
+  "metadata": {
+    "description": "Claude Code skill for building custom authentication flows with Clerk.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "custom-flows",
+      "description": "Build custom sign-in and sign-up authentication flows with Clerk's useSignIn and useSignUp hooks.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/custom-flows"]
+    }
+  ]
+}

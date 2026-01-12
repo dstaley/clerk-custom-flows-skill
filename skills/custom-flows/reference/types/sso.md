@@ -1,0 +1,63 @@
+# SSO Types
+
+## `OAuthStrategy`
+
+A type that represents the OAuth strategy for a given provider.
+
+For example, when creating a [`SignIn`](https://clerk.com/docs/pr/core-3/reference/javascript/sign-in#sign-in-create-params) or [`SignUp`](https://clerk.com/docs/pr/core-3/reference/javascript/sign-up#sign-up-create-params), you can pass the `strategy` option to specify the OAuth strategy to use.
+
+```ts
+type OAuthStrategy = `oauth_${OAuthProvider}` | CustomOAuthStrategy
+```
+
+## `OAuthProvider`
+
+A type that represents the OAuth provider.
+
+```ts
+type OAuthProvider =
+  | 'facebook'
+  | 'google'
+  | 'hubspot'
+  | 'github'
+  | 'tiktok'
+  | 'gitlab'
+  | 'discord'
+  | 'twitter'
+  | 'twitch'
+  | 'linkedin'
+  | 'linkedin_oidc'
+  | 'dropbox'
+  | 'atlassian'
+  | 'bitbucket'
+  | 'microsoft'
+  | 'notion'
+  | 'apple'
+  | 'line'
+  | 'instagram'
+  | 'coinbase'
+  | 'spotify'
+  | 'xero'
+  | 'box'
+  | 'slack'
+  | 'linear'
+  | 'x'
+  | 'huggingface'
+  | `custom_${string}`
+```
+
+## `CustomOAuthStrategy`
+
+A type that represents a [custom OAuth strategy](https://clerk.com/docs/pr/core-3/guides/configure/auth-strategies/social-connections/custom-provider).
+
+```ts
+type CustomOAuthStrategy = `oauth_custom_${string}`
+```
+
+## `EnterpriseSSOStrategy`
+
+A type that represents an [Enterprise SSO](https://clerk.com/docs/pr/core-3/guides/configure/auth-strategies/enterprise-connections/authentication-flows) strategy.
+
+```ts
+type EnterpriseSSOStrategy = `enterprise_sso`
+```

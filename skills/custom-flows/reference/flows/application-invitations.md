@@ -1,0 +1,85 @@
+# Sign-up with application invitations
+
+When a user visits an [invitation](https://clerk.com/docs/pr/core-3/guides/users/inviting) link, Clerk first checks whether a custom redirect URL was provided.
+
+**If no redirect URL is specified**, the user will be redirected to the appropriate Account Portal page (either [sign-up](https://clerk.com/docs/pr/core-3/guides/account-portal/overview#sign-up) or [sign-in](https://clerk.com/docs/pr/core-3/guides/account-portal/overview#sign-in)), or to the custom sign-up/sign-in pages that you've configured for your application.
+
+**If you specified [a redirect URL when creating the invitation](https://clerk.com/docs/pr/core-3/guides/users/inviting#with-a-redirect-url)**, you must handle the authentication flows in your code for that page. You can either embed the \<SignIn /> component on that page, or if the prebuilt component doesn't meet your specific needs or if you require more control over the logic, you can rebuild the existing Clerk flows using the Clerk API.
+
+This guide demonstrates how to use Clerk's API to build a custom flow for accepting application invitations.
+
+## Build the custom flow
+
+Once the user visits the invitation link and is redirected to the specified URL, the query parameter `__clerk_ticket` will be appended to the URL. This query parameter contains the invitation token.
+
+For example, if the redirect URL was `https://www.example.com/accept-invitation`, the URL that the user would be redirected to would be `https://www.example.com/accept-invitation?__clerk_ticket=.....`.
+
+To create a sign-up flow using the invitation token, you need to call the [`signUp.ticket()`](../sign-up-future.md#ticket) method, as shown in the following example. The following example also demonstrates how to collect additional user information for the sign-up; you can either remove these fields or adjust them to fit your application.
+
+**Next.js**
+
+```tsx {{ filename: 'app/accept-invitation/page.tsx', collapsible: true }}
+'use client'
+
+import * as React from 'react'
+import { useSignUp, useUser } from '@clerk/nextjs'
+import { useRouter } from 'next/navigation'
+
+export default function Page() {
+  const { isSignedIn, user } = useUser()
+  const { signUp, errors, fetchStatus } = useSignUp()
+  const router = useRouter()
+
+  const handleSubmit = async (formData: FormData) => {
+    const firstName = formData.get('firstName') as string
+    const lastName = formData.get('lastName') as string
+    const password = formData.get('password') as string
+
+    await signUp.ticket({
+      firstName,
+      lastName,
+      password,
+    })
+    if (signUp.status === 'complete') {
+      await signUp.finalize({
+        navigate: () => {
+          router.push('/')
+        },
+      })
+    }
+  }
+
+  if (signUp.status === 'complete' || isSignedIn) {
+    return null
+  }
+
+  return (
+    <>
+      <h1>Sign up</h1>
+      <form action={handleSubmit}>
+        <div>
+          <label htmlFor="firstName">Enter first name</label>
+          <input id="firstName" type="text" name="firstName" />
+          {errors.fields.firstName && <p>{errors.fields.firstName.message}</p>}
+        </div>
+        <div>
+          <label htmlFor="lastName">Enter last name</label>
+          <input id="lastName" type="text" name="lastName" />
+          {errors.fields.lastName && <p>{errors.fields.lastName.message}</p>}
+        </div>
+        <div>
+          <label htmlFor="password">Enter password</label>
+          <input id="password" type="password" name="password" />
+          {errors.fields.password && <p>{errors.fields.password.message}</p>}
+        </div>
+        <div id="clerk-captcha" />
+        <div>
+          <button type="submit" disabled={fetchStatus === 'fetching'}>
+            Next
+          </button>
+        </div>
+      </form>
+    </>
+  )
+}
+```
