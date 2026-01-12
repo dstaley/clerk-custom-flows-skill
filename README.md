@@ -9,7 +9,7 @@ This repo contains a custom [Agent Skill](https://agentskills.io) that helps whe
 You can register this repository as a Claude Code Plugin marketplace by running the following command in Claude Code:
 
 ```
-/plugin marketplace add dstaley/clerk-custom-flows-skills
+/plugin marketplace add https://github.com/dstaley/clerk-custom-flows-skill
 /plugin install custom-flows@clerk-custom-flows-skills
 ```
 
