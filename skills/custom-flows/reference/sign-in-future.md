@@ -298,6 +298,24 @@ The user's password. Only supported if [password](https://clerk.com/docs/pr/core
 
 ***
 
+`emailAddress` `string`
+
+The user's email address. Only supported if [Email address](https://clerk.com/docs/pr/core-3/guides/configure/auth-strategies/sign-up-sign-in-options#email) is enabled.
+
+***
+
+`identifier` `string`
+
+The authentication identifier for the sign-in. This can be the value of the user's email address, phone number, username, or Web3 wallet address.
+
+***
+
+`phoneNumber` `string`
+
+The user's phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164). Only supported if [phone number](https://clerk.com/docs/pr/core-3/guides/configure/auth-strategies/sign-up-sign-in-options#phone) is enabled.
+
+***
+
 ### `phoneCode.sendCode()`
 
 Used to send a phone code to sign-in
