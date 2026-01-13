@@ -38,11 +38,11 @@ export default function SignUpPage() {
   const { isSignedIn } = useAuth()
 
   const handleSubmit = async (formData: FormData) => {
-    const email = formData.get('email') as string
+    const emailAddress = formData.get('email') as string
     const password = formData.get('password') as string
 
     await signUp.password({
-      email,
+      emailAddress,
       password,
     })
 
@@ -113,11 +113,11 @@ export default function SignInPage() {
   const { isSignedIn } = useAuth()
 
   const handleSubmit = async (formData: FormData) => {
-    const email = formData.get('email') as string
+    const emailAddress = formData.get('email') as string
     const password = formData.get('password') as string
 
     await signIn.password({
-      email,
+      emailAddress,
       password,
     })
     if (signIn.status === 'complete') {
