@@ -83,13 +83,14 @@ Creates a new `SignIn` instance initialized with the provided parameters. The in
 
 What you must pass to `params` depends on which [sign-in options](https://clerk.com/docs/pr/core-3/guides/configure/auth-strategies/sign-up-sign-in-options) you have enabled in your app's settings in the Clerk Dashboard.
 
-You can complete the sign-in process in one step if you supply the required fields to `create()`. Otherwise, Clerk's sign-in process provides great flexibility and allows users to easily create multi-step sign-in flows.
+> \[!IMPORTANT]
+> The `signIn.create()` method is intended for advanced use cases. For most use cases, prefer the use of the factor-specific methods such as `signIn.password()`, `signIn.emailCode.sendCode()`, etc.
 
 > \[!WARNING]
 > Once the sign-in process is complete, call the `signIn.finalize()` method to set the newly created session as the active session.
 
 ```ts
-function create(params: SignInFutureCreateParams): Promise<{ error: unknown }>
+function create(params: SignInFutureCreateParams): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignInFutureCreateParams`
@@ -137,7 +138,7 @@ When set to `true`, the `SignIn` will attempt to retrieve information from the a
 Used to send an email code to sign-in
 
 ```ts
-function sendCode(params: SignInFutureEmailCodeSendParams): Promise<{ error: unknown }>
+function sendCode(params: SignInFutureEmailCodeSendParams): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignInFutureEmailCodeSendParams`
@@ -161,7 +162,9 @@ The ID for the user's email address that will receive an email with the one-time
 Used to verify a code sent via email to sign-in
 
 ```ts
-function verifyCode(params: SignInFutureEmailCodeVerifyParams): Promise<{ error: unknown }>
+function verifyCode(
+  params: SignInFutureEmailCodeVerifyParams,
+): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignInFutureEmailCodeVerifyParams`
@@ -179,7 +182,7 @@ The one-time code that was sent to the user.
 Used to send an email link to sign-in
 
 ```ts
-function sendLink(params: SignInFutureEmailLinkSendParams): Promise<{ error: unknown }>
+function sendLink(params: SignInFutureEmailLinkSendParams): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignInFutureEmailLinkSendParams`
@@ -197,7 +200,7 @@ The full URL that the user will be redirected to when they visit the email link.
 Will wait for verification to complete or expire
 
 ```ts
-function waitForVerification(): Promise<{ error: unknown }>
+function waitForVerification(): Promise<{ error: ClerkError | null }>
 ```
 
 ### `finalize()`
@@ -205,7 +208,7 @@ function waitForVerification(): Promise<{ error: unknown }>
 Used to convert a sign-in with `status === 'complete'` into an active session. Will cause anything observing the session state (such as the `useUser()` hook) to update automatically.
 
 ```ts
-function finalize(params?: SignInFutureFinalizeParams): Promise<{ error: unknown }>
+function finalize(params?: SignInFutureFinalizeParams): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignInFutureFinalizeParams`
@@ -223,7 +226,7 @@ A custom navigation function to be called just before the session and/or organiz
 Used to send a phone code as a second factor to sign-in
 
 ```ts
-function sendPhoneCode(): Promise<{ error: unknown }>
+function sendPhoneCode(): Promise<{ error: ClerkError | null }>
 ```
 
 ### `mfa.verifyBackupCode()`
@@ -231,7 +234,9 @@ function sendPhoneCode(): Promise<{ error: unknown }>
 Used to verify a backup code as a second factor to sign-in
 
 ```ts
-function verifyBackupCode(params: SignInFutureBackupCodeVerifyParams): Promise<{ error: unknown }>
+function verifyBackupCode(
+  params: SignInFutureBackupCodeVerifyParams,
+): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignInFutureBackupCodeVerifyParams`
@@ -249,7 +254,9 @@ The backup code that was provided to the user when they set up two-step authenti
 Used to verify a phone code sent as a second factor to sign-in
 
 ```ts
-function verifyPhoneCode(params: SignInFutureMFAPhoneCodeVerifyParams): Promise<{ error: unknown }>
+function verifyPhoneCode(
+  params: SignInFutureMFAPhoneCodeVerifyParams,
+): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignInFutureMFAPhoneCodeVerifyParams`
@@ -267,7 +274,7 @@ The one-time code that was sent to the user as part of the `signIn.mfa.sendPhone
 Used to verify a TOTP code as a second factor to sign-in
 
 ```ts
-function verifyTOTP(params: SignInFutureTOTPVerifyParams): Promise<{ error: unknown }>
+function verifyTOTP(params: SignInFutureTOTPVerifyParams): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignInFutureTOTPVerifyParams`
@@ -305,7 +312,7 @@ The flow to use for the passkey sign-in.
 Used to submit a password to sign-in.
 
 ```ts
-function password(params: SignInFuturePasswordParams): Promise<{ error: unknown }>
+function password(params: SignInFuturePasswordParams): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignInFuturePasswordParams`
@@ -341,7 +348,7 @@ The user's phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164). 
 Used to send a phone code to sign-in
 
 ```ts
-function sendCode(params: SignInFuturePhoneCodeSendParams): Promise<{ error: unknown }>
+function sendCode(params: SignInFuturePhoneCodeSendParams): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignInFuturePhoneCodeSendParams`
@@ -359,7 +366,9 @@ The mechanism to use to send the code to the provided phone number. Defaults to 
 Used to verify a code sent via phone to sign-in
 
 ```ts
-function verifyCode(params: SignInFuturePhoneCodeVerifyParams): Promise<{ error: unknown }>
+function verifyCode(
+  params: SignInFuturePhoneCodeVerifyParams,
+): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignInFuturePhoneCodeVerifyParams`
@@ -377,7 +386,7 @@ The one-time code that was sent to the user.
 Used to send a password reset code to the first email address on the account
 
 ```ts
-function sendCode(): Promise<{ error: unknown }>
+function sendCode(): Promise<{ error: ClerkError | null }>
 ```
 
 ### `resetPasswordEmailCode.submitPassword()`
@@ -385,7 +394,9 @@ function sendCode(): Promise<{ error: unknown }>
 Used to submit a new password, and move the `signIn.status` to `'complete'`.
 
 ```ts
-function submitPassword(params: SignInFutureResetPasswordSubmitParams): Promise<{ error: unknown }>
+function submitPassword(
+  params: SignInFutureResetPasswordSubmitParams,
+): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignInFutureResetPasswordSubmitParams`
@@ -409,7 +420,9 @@ If `true`, signs the user out of all other authenticated sessions.
 Used to verify a password reset code sent via email. Will cause `signIn.status` to become `'needs_new_password'`.
 
 ```ts
-function verifyCode(params: SignInFutureEmailCodeVerifyParams): Promise<{ error: unknown }>
+function verifyCode(
+  params: SignInFutureEmailCodeVerifyParams,
+): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignInFutureEmailCodeVerifyParams`
@@ -427,7 +440,7 @@ The one-time code that was sent to the user.
 Used to perform OAuth authentication.
 
 ```ts
-function sso(params: SignInFutureSSOParams): Promise<{ error: unknown }>
+function sso(params: SignInFutureSSOParams): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignInFutureSSOParams`
@@ -473,7 +486,7 @@ The value to pass to the [OIDC `prompt` parameter](https://openid.net/specs/open
 Used to perform a ticket-based sign-in.
 
 ```ts
-function ticket(params?: SignInFutureTicketParams): Promise<{ error: unknown }>
+function ticket(params?: SignInFutureTicketParams): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignInFutureTicketParams`
@@ -491,7 +504,7 @@ The [ticket _or token_](./flows/application-invitations.md) generated from the B
 Used to perform a Web3-based sign-in.
 
 ```ts
-function web3(params: SignInFutureWeb3Params): Promise<{ error: unknown }>
+function web3(params: SignInFutureWeb3Params): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignInFutureWeb3Params`

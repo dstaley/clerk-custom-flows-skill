@@ -137,13 +137,14 @@ Creates a new `SignUp` instance initialized with the provided parameters. The in
 
 What you must pass to `params` depends on which [sign-up options](https://clerk.com/docs/pr/core-3/guides/configure/auth-strategies/sign-up-sign-in-options) you have enabled in your app's settings in the Clerk Dashboard.
 
-You can complete the sign-up process in one step if you supply the required fields to `create()`. Otherwise, Clerk's sign-up process provides great flexibility and allows users to easily create multi-step sign-up flows.
+> \[!IMPORTANT]
+> The `signUp.create()` method is intended for advanced use cases. For most use cases, prefer the use of the factor-specific methods such as `signUp.password()`, `signUp.sso()`, etc.
 
 > \[!WARNING]
 > Once the sign-up process is complete, call the `signUp.finalize()` method to set the newly created session as the active session.
 
 ```ts
-function create(params: SignUpFutureCreateParams): Promise<{ error: unknown }>
+function create(params: SignUpFutureCreateParams): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignUpFutureCreateParams`
@@ -215,7 +216,7 @@ The Web3 wallet address, made up of 0x + 40 hexadecimal characters. **Required**
 Used to convert a sign-up with `status === 'complete'` into an active session. Will cause anything observing the session state (such as the `useUser()` hook) to update automatically.
 
 ```ts
-function finalize(params?: SignUpFutureFinalizeParams): Promise<{ error: unknown }>
+function finalize(params?: SignUpFutureFinalizeParams): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignUpFutureFinalizeParams`
@@ -233,7 +234,7 @@ A custom navigation function to be called just before the session and/or organiz
 Used to sign up using an email address and password.
 
 ```ts
-function password(params: SignUpFuturePasswordParams): Promise<{ error: unknown }>
+function password(params: SignUpFuturePasswordParams): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignUpFuturePasswordParams`
@@ -299,7 +300,7 @@ The user's username. Only supported if [username](https://clerk.com/docs/pr/core
 Used to create an account using an OAuth connection.
 
 ```ts
-function sso(params: SignUpFutureSSOParams): Promise<{ error: unknown }>
+function sso(params: SignUpFutureSSOParams): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignUpFutureSSOParams`
@@ -329,7 +330,7 @@ The strategy to use for authentication.
 Used to perform a ticket-based sign-up.
 
 ```ts
-function ticket(params?: SignUpFutureTicketParams): Promise<{ error: unknown }>
+function ticket(params?: SignUpFutureTicketParams): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignUpFutureTicketParams`
@@ -371,7 +372,7 @@ Metadata that can be read and set from the frontend. Once the sign-up is complet
 Updates the current `SignUp`.
 
 ```ts
-function update(params: SignUpFutureUpdateParams): Promise<{ error: unknown }>
+function update(params: SignUpFutureUpdateParams): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignUpFutureUpdateParams`
@@ -407,7 +408,7 @@ Metadata that can be read and set from the frontend. Once the sign-up is complet
 Used to send an email code to verify an email address.
 
 ```ts
-function sendEmailCode(): Promise<{ error: unknown }>
+function sendEmailCode(): Promise<{ error: ClerkError | null }>
 ```
 
 ### `verifications.sendPhoneCode()`
@@ -415,7 +416,9 @@ function sendEmailCode(): Promise<{ error: unknown }>
 Used to send a phone code to verify a phone number.
 
 ```ts
-function sendPhoneCode(params: SignUpFuturePhoneCodeSendParams): Promise<{ error: unknown }>
+function sendPhoneCode(
+  params: SignUpFuturePhoneCodeSendParams,
+): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignUpFuturePhoneCodeSendParams`
@@ -439,7 +442,9 @@ The user's phone number in [E.164 format](https://en.wikipedia.org/wiki/E.164). 
 Used to verify a code sent via email.
 
 ```ts
-function verifyEmailCode(params: SignUpFutureEmailCodeVerifyParams): Promise<{ error: unknown }>
+function verifyEmailCode(
+  params: SignUpFutureEmailCodeVerifyParams,
+): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignUpFutureEmailCodeVerifyParams`
@@ -457,7 +462,9 @@ The code that was sent to the user.
 Used to verify a code sent via phone.
 
 ```ts
-function verifyPhoneCode(params: SignUpFuturePhoneCodeVerifyParams): Promise<{ error: unknown }>
+function verifyPhoneCode(
+  params: SignUpFuturePhoneCodeVerifyParams,
+): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignUpFuturePhoneCodeVerifyParams`
@@ -475,7 +482,7 @@ The code that was sent to the user.
 Used to perform a Web3-based sign-up.
 
 ```ts
-function web3(params: SignUpFutureWeb3Params): Promise<{ error: unknown }>
+function web3(params: SignUpFutureWeb3Params): Promise<{ error: ClerkError | null }>
 ```
 
 #### `SignUpFutureWeb3Params`
