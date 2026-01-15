@@ -221,6 +221,34 @@ A custom navigation function to be called just before the session and/or organiz
 
 ***
 
+### `mfa.sendEmailCode()`
+
+Used to send an email code as a second factor to sign-in
+
+```ts
+function sendEmailCode(): Promise<{ error: ClerkError | null }>
+```
+
+### `mfa.verifyEmailCode()`
+
+Used to verify an email code sent as a second factor to sign-in
+
+```ts
+function verifyEmailCode(
+  params: SignInFutureMFAEmailCodeVerifyParams,
+): Promise<{ error: ClerkError | null }>
+```
+
+#### `SignInFutureMFAEmailCodeVerifyParams`
+
+***
+
+`code` `string`
+
+The one-time code that was sent to the user as part of the `signIn.mfa.sendEmailCode()` method.
+
+***
+
 ### `mfa.sendPhoneCode()`
 
 Used to send a phone code as a second factor to sign-in
@@ -228,26 +256,6 @@ Used to send a phone code as a second factor to sign-in
 ```ts
 function sendPhoneCode(): Promise<{ error: ClerkError | null }>
 ```
-
-### `mfa.verifyBackupCode()`
-
-Used to verify a backup code as a second factor to sign-in
-
-```ts
-function verifyBackupCode(
-  params: SignInFutureBackupCodeVerifyParams,
-): Promise<{ error: ClerkError | null }>
-```
-
-#### `SignInFutureBackupCodeVerifyParams`
-
-***
-
-`code` `string`
-
-The backup code that was provided to the user when they set up two-step authentication.
-
-***
 
 ### `mfa.verifyPhoneCode()`
 
@@ -266,6 +274,26 @@ function verifyPhoneCode(
 `code` `string`
 
 The one-time code that was sent to the user as part of the `signIn.mfa.sendPhoneCode()` method.
+
+***
+
+### `mfa.verifyBackupCode()`
+
+Used to verify a backup code as a second factor to sign-in
+
+```ts
+function verifyBackupCode(
+  params: SignInFutureBackupCodeVerifyParams,
+): Promise<{ error: ClerkError | null }>
+```
+
+#### `SignInFutureBackupCodeVerifyParams`
+
+***
+
+`code` `string`
+
+The backup code that was provided to the user when they set up two-step authentication.
 
 ***
 
