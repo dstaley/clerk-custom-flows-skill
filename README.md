@@ -14,3 +14,15 @@ You can register this repository as a Claude Code Plugin marketplace by running 
 ```
 
 After installing the plugin, you can use the skill by just mentioning it. For instance, you can ask Claude Code to do something like: "Use the custom flows skill to build a sign-in page that uses email and password".
+
+### Codex
+
+You can install this skill by running the following in a Codex session:
+
+```
+$skill-installer https://github.com/dstaley/clerk-custom-flows-skill/tree/main/skills/custom-flows
+```
+
+Then, invoke the skill by adding `$custom-flows` to the beginning of your prompt. For example:
+
+> $custom-flows build a sign-in page that accepts email address and password. Also add a button to sign in with Google.
